@@ -1,12 +1,32 @@
-# React + Vite
+# usePopcorn 🎬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**usePopcorn** is a web app for searching movies, viewing details, and rating movies you’ve watched. It uses the [OMDb API](http://www.omdbapi.com/) for movie data.
 
-Currently, two official plugins are available:
+**Features**:
+- Search for movies by title (requires at least 3 characters).
+- View detailed movie information: poster, release date, genre, IMDb rating, plot, actors, and director.
+- Rate movies using an interactive star rating system.
+- Add movies to your watched list with personal ratings.
+- Responsive, user-friendly interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Installation & Usage**:
+1. Clone the repository: `git clone https://github.com/davidrapu/usePopcorn`
+2. Navigate into the folder: `cd usePopcorn`
+3. Install dependencies: `npm install`
+4. Start the development server: `npm run dev`
+5. Open the app in your browser (usually `http://localhost:5173/`).
 
-## Expanding the ESLint configuration
+**How to use**:
+- Type a movie name in the search bar.
+- Click on a movie to see details.
+- Rate the movie with stars.
+- Add it to your watched list to keep track of ratings.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Technologies**: React, Vite, CSS, OMDb API.
+
+**Deployment**:
+- Can be deployed on Vercel or any static hosting platform.
+- Make sure fetch URLs use HTTPS to avoid mixed content issues.
+
+**Contributing**:
+- Fork the repo, create a feature branch, commit changes, push, and open a Pull Request.
