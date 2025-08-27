@@ -17,7 +17,7 @@ export default function NavigationBar({ apikey, movies, setMovies, setIsLoading,
           return
         }
         const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${apikey}&s=${search}`,
+          `https://www.omdbapi.com/?apikey=${apikey}&s=${search}`,
           {signal : controller.signal}
         );
         const data = await res.json();
