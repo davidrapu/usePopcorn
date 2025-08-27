@@ -6,38 +6,40 @@ export default function NavigationBar({ apikey, movies, setMovies, setIsLoading,
     setSearch(e.target.value)
   }
   useEffect(() => {
-    const controller = new AbortController()
-    async function handleFetch() {
-      try {
-        setIsError(false);
-        setIsLoading(true);
-        if (search.length < 3) {
-          setMovies([])
-          setIsError(false)
-          return
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      async function handleFetch() {
+        try {
+          setIsError(false);
+          setIsLoading(true);
+          if (search.length < 3) {
+            setMovies([]);
+            setIsError(false);
+            return;
+          }
+          const res = await fetch(
+            `https://www.omdbapi.com/?apikey=${apikey}&s=${search}`,
+            { signal: controller.signal }
+          );
+          const data = await res.json();
+          if (data.Response === "False") throw new Error("Movie not Found");
+          setMovies(data.Search || []);
+        } catch {
+          setIsError(true);
+        } finally {
+          setIsLoading(false);
         }
-        const res = await fetch(
-          `https://www.omdbapi.com/?apikey=${apikey}&s=${search}`,
-          {signal : controller.signal}
-        );
-        const data = await res.json();
-        if (data.Response === "False") throw new Error("Movie not Found");
-        setMovies(data.Search || []);
-        
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
       }
-    }
-    handleFetch()
+      handleFetch();
+    }, 50); // wait 300ms after last keystroke
 
-    //clean up
     return () => {
-      controller.abort()
-    }
+      controller.abort();
+      clearTimeout(timer);
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[search])
+  }, [search]);
+
 
   return (
     <div className="nav-bar">
