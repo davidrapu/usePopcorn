@@ -11,18 +11,22 @@ export default function MovieDetails({
   rating,
   setRating
 }) {
+  // States
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Variables
+  const existingMovie = watchedMovies.find(
+    (movieObj) => movieObj.imdbID === id
+  );
+
+  // Handelers
   function handleClosure() {
     setSelectedId(null);
     setSelectedMovie(null)
   }
 
   function handleAddWatched() {
-
-    const existingMovie = watchedMovies.find(
-      (movieObj) => movieObj.imdbID === id
-    );
 
     const movieObj = {
       imdbID: selectedMovie.imdbID,
@@ -50,7 +54,6 @@ export default function MovieDetails({
     const controller = new AbortController()
     async function fetchMovie() {
       setIsLoading(true);
-
       const res = await fetch(
         `https://www.omdbapi.com/?apikey=${apikey}&i=${id}`, {signal: controller.signal}
       );
@@ -100,8 +103,11 @@ export default function MovieDetails({
       </header>
       <section>
         <div className="rating">
-          <Stars maxRating={10} size={25} rating={rating} setRating={setRating} />
-
+          { existingMovie === undefined ?
+            <Stars maxRating={10} size={25} rating={rating} setRating={setRating} />
+            :
+            <p>You rated with movie {existingMovie.userRating}⭐</p>
+          }
         { rating > 0 &&
             <Button className="btn-add" onClick={handleAddWatched}>
             + Add to List
