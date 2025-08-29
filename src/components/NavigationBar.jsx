@@ -24,8 +24,10 @@ export default function NavigationBar({ apikey, movies, setMovies, setIsLoading,
           const data = await res.json();
           if (data.Response === "False") throw new Error("Movie not Found");
           setMovies(data.Search || []);
-        } catch {
-          setIsError(true);
+        } catch(err) {
+          if (err.name != "AbortError") {
+            setIsError(true);
+          }
         } finally {
           setIsLoading(false);
         }
