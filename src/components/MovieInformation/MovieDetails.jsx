@@ -10,7 +10,6 @@ export default function MovieDetails({
   watchedMovies,
   rating,
   setRating,
-  setLocalStorage
 }) {
   // States
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -28,7 +27,6 @@ export default function MovieDetails({
   }
 
   function handleAddWatched() {
-
     const movieObj = {
       imdbID: selectedMovie.imdbID,
       Title: selectedMovie.Title,
@@ -39,23 +37,22 @@ export default function MovieDetails({
       userRating: Number(rating),
     };
 
-    setWatchedMovies(watched => {
+    setWatchedMovies((watched) => {
       const newWatched = [...watched, movieObj];
-      setLocalStorage(newWatched)
-      return newWatched
-    })
+      return newWatched;
+    });
 
-
-    setSelectedId(null)
-    setRating(0)
+    setSelectedId(null);
+    setRating(0);
   }
 
   useEffect(() => {
-    const controller = new AbortController()
+    const controller = new AbortController();
     async function fetchMovie() {
       setIsLoading(true);
       const res = await fetch(
-        `https://www.omdbapi.com/?apikey=${apikey}&i=${id}`, {signal: controller.signal}
+        `https://www.omdbapi.com/?apikey=${apikey}&i=${id}`,
+        { signal: controller.signal }
       );
       const data = await res.json();
 
@@ -71,11 +68,11 @@ export default function MovieDetails({
   }, [id]);
   // console.log(selectedMovie)
   useEffect(() => {
-    document.title =  `Movie | ${selectedMovie?.Title || ''}`
+    document.title = `Movie | ${selectedMovie?.Title || ""}`;
     return () => {
-      document.title = 'usePopcorn'
-    }
-  }, [selectedMovie])
+      document.title = "usePopcorn";
+    };
+  }, [selectedMovie]);
 
   return isLoading ? (
     <div className="loader"> Loading... </div>
@@ -103,16 +100,21 @@ export default function MovieDetails({
       </header>
       <section>
         <div className="rating">
-          { existingMovie === undefined ?
-            <Stars maxRating={10} size={25} rating={rating} setRating={setRating} />
-            :
+          {existingMovie === undefined ? (
+            <Stars
+              maxRating={10}
+              size={25}
+              rating={rating}
+              setRating={setRating}
+            />
+          ) : (
             <p>You rated with movie {existingMovie.userRating}⭐</p>
-          }
-        { rating > 0 &&
+          )}
+          {rating > 0 && (
             <Button className="btn-add" onClick={handleAddWatched}>
-            + Add to List
+              + Add to List
             </Button>
-        }
+          )}
         </div>
         <p> {selectedMovie?.Plot} </p>
         <p>Staring {selectedMovie?.Actors} </p>
