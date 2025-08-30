@@ -9,7 +9,8 @@ export default function MovieDetails({
   setWatchedMovies,
   watchedMovies,
   rating,
-  setRating
+  setRating,
+  setLocalStorage
 }) {
   // States
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -23,7 +24,7 @@ export default function MovieDetails({
   // Handelers
   function handleClosure() {
     setSelectedId(null);
-    setSelectedMovie(null)
+    setSelectedMovie(null);
   }
 
   function handleAddWatched() {
@@ -38,14 +39,13 @@ export default function MovieDetails({
       userRating: Number(rating),
     };
 
-    if (existingMovie != undefined) {
-        setWatchedMovies((watched) => {
-            const newWatched = [...watched.filter((movieObj => movieObj.imdbID != id)), movieObj]
-            return newWatched
-        })
-    }else{
-        setWatchedMovies((watched) => [...watched, movieObj]);
-    }
+    setWatchedMovies(watched => {
+      const newWatched = [...watched, movieObj];
+      setLocalStorage(newWatched)
+      return newWatched
+    })
+
+
     setSelectedId(null)
     setRating(0)
   }

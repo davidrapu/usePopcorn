@@ -5,9 +5,20 @@ import WatchedMovieCard from "./WatchedMovieCard";
 import Summary from "./Summary";
 
 export default function RightBox({ selectedId, setSelectedId, apikey }) {
-  const [watchedMovies, setWatchedMovies] = useState([]);
+  const [watchedMovies, setWatchedMovies] = useState(getLocalStorage);
   const [isOpen, setIsOpen] = useState(true);
   const [rating, setRating] = useState(0);
+
+  function setLocalStorage(watchedMoviesList) {
+    localStorage.setItem(
+      "watchedMoviesList",
+      JSON.stringify(watchedMoviesList)
+    );
+  }
+  function getLocalStorage() {
+    const local = localStorage.getItem("watchedMoviesList");
+    return local ? JSON.parse(local) : [];
+  }
   return (
     <Box isOpen={isOpen} setIsOpen={setIsOpen}>
       {isOpen &&
@@ -20,6 +31,7 @@ export default function RightBox({ selectedId, setSelectedId, apikey }) {
             watchedMovies={watchedMovies}
             rating={rating}
             setRating={setRating}
+            setLocalStorage={setLocalStorage}
           />
         ) : (
           <>
