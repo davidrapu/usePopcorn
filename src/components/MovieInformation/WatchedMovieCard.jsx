@@ -1,4 +1,8 @@
-export default function WatchedMovieCard({ movie }) {
+import Button from "../Button";
+export default function WatchedMovieCard({ movie, setWatchedMovies }) {
+  function handleMovieDeletion(){
+    setWatchedMovies(watchedMovies => watchedMovies.filter(movieObj => movieObj.imdbID != movie.imdbID))
+  }
   return (
     <li>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -16,6 +20,9 @@ export default function WatchedMovieCard({ movie }) {
           <span>⏳</span>
           <span>{movie.runtime || 0} min</span>
         </p>
+        <Button className='btn-delete' onClick={handleMovieDeletion}>
+          ✖️
+        </Button>
       </div>
     </li>
   );
